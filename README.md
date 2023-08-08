@@ -190,4 +190,7 @@ outfile.close()
 sys.exit()
 
 ```
-
+# Resultat in Excel   
+Das sieht dann geplottet etwa so aus:
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/27466c5d-8a76-428b-9682-da3ce35e3e6f)
+Klein und grau ist die Außentemperatur. Da kann man schon erkennen, dass mit geringerer Temperatur der Bedarf an Heizenergie steigt. Ach was.
