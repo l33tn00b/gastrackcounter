@@ -20,5 +20,16 @@ Der Reed-Sensor wird zwischen digitalen Eingang und Masse geklemmt. Damit zieht 
 
 ## ESPEasy
 Sorry, keine Ausführungen zur Installation von ESPEasy. Bitte auf den Seiten dort nachschlagen.
-Zur Konfiguration:
+Zur Konfiguration
+### Hardware Settings
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/7cb571a1-0916-4ad0-9e87-d00f0fdd4cad)
+### Devices
+Hier einfach auf das Gas (Task 3) achten.
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/476f504f-5d5d-48ec-bde7-6b6dfead1712)
+
+Task 3 (Gas) im Detail:
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/625848c2-e0fa-415b-8dd9-e5b35c03811c)
+
+
+
 
