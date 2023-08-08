@@ -50,7 +50,7 @@ Task 3 (Gas) im Detail:
 ## fhem
 Hier fängt die eigentliche Arbeit an. Da ein absoluter Zählerstand  bei ESPEasy nicht persistent gespeichert wird (reboot? -> Zählerstand wech), muss fhem irgendwie von einem anfänglichen Stand aus hochzählen und die relativen Zählerstände, die nach einem Update-Intervall von ESPEasy kommen, dazuaddieren.
 
-## Device, um Daten von den ESPs, die ESPEasy am laufen haben, zu sammeln:  
+### Device, um Daten von den ESPs, die ESPEasy am laufen haben, zu sammeln:  
 ```
 defmod espBridge ESPEasy bridge
 attr espBridge authentication 1
@@ -66,7 +66,7 @@ Danach noch user und passwort setzen:
 
 Weil autocreate an ist, sollte der ESP dann automatisch angelegt werden, wenn er sich zum ersten Mal bei fhem meldet.
 
-## Zählerstand tracken
+### Zählerstand tracken
 - dummy anlegen, um Zählerstand zu tracken:
   ```
   define gasVirtuellerZaehlertand dummy
@@ -86,7 +86,108 @@ Weil autocreate an ist, sollte der ESP dann automatisch angelegt werden, wenn er
   defmod FileLog_gasVirtuellerZaehlerstand FileLog ./log/gasVirtuellerZaehlerstand_%Y_%m.log gasVirtuellerZaehlerstand:.*
   attr FileLog_gasVirtuellerZaehlerstand room Energie,Gas
   ```
+# Megastumpfes Phython Script zur Auswertung:  
 
+Nimmt als Argument den Namen eines fhem-Logfiles (s.o.), das dann nach Tagen ausgewertet wird. Gasverbrauch eines Tages (im Kubikmetern) ist also der Stand am endes des Tages minus der Stand am Anfang des Tages. Spuckt die Ergebnisse der Berechnungen in einer csv-Datei (Name der Eingabedatei + '_gasprotag_kubik.csv') aus. Die kann dann in Exel hübsch gemacht werden. U.A. mit Umrechnung (siehe Gasrechnung) der Kubik in Kilowattstunden, um dann eine Abschätzung für den Strombedarf bei Umstellung auf Wärmepumpe zu machen. 
 
-- 
+```
+# Auswertung von FHEM Logfiles um eine Abschätzung des Energiebedarfs
+# pro Tag  zu erhalten.
+
+# zur Auswertung der virtuellen Zählerstände, die in FHEM generiert werden
+# das Problem bei den ESP-Easy Zählern ist, dass die dne Zählerstand verlieren
+# würden, wenn sie mal einen Schluckauf bei der Stromversorgung oder einen
+# Reset aus anderen Gründen haben
+
+# also zählen wir mit dem ESPEasy nicht absolut sondern lassen uns alle paar
+# sekunden die in der zurückliegenden Periode gemessenen Werte liefern
+
+# dann haben wir in fhem ein doif, das bei neuen werten einen dummy hochzählt,
+# und damit unseren virtuellen zählerstand generiert.
+
+# den werten wir hier pro Tag aus
+
+# TODO/BUG: Am Anfang des Monats wird falsch gerechnet, weil
+# da natürlich vom letzten Monat die Referenz fehlt, um das Delta
+# berechnen zu können (liegt einfach daran, dass die Logfiles monatsweise
+# vorliegen)
+# muss dann halt in excel manuell korrigiert werden
+
+#python 3
+import argparse,sys
+from datetime import datetime, time, timedelta
+#from string import split
+
+parser = argparse.ArgumentParser(description='Process Command Line Arguments.')
+parser.add_argument('filename', type=str,
+                   help='name of file that is to be processed')
+
+args = parser.parse_args()
+print(args.filename)
+# read from specified file
+infile = open(args.filename,'r')
+
+# set up output files
+# gas (kubik) pro Tag
+outfilename = args.filename.split('.')[0]+'_gasprotag_kubik.csv'
+print(outfilename)
+outfile = open(outfilename,'w')
+
+# starttag bestimmen
+#set timestamp for startup to collate entries with identical timestamps
+#whereas timestamp is not the sdm's timestamp
+#but fhem's logging timestamp
+line = infile.readline()
+prevDate = datetime.fromisoformat(line.split(' ')[0])
+print ("Startdatum: ", prevDate.date().isoformat())
+# impulse des vorangegangenen Tages
+# die müssen wir dann von denen des momentanen Tages abziehen
+# TODO: mal gucken, ob ein int reicht :P
+#ZaehlerVorangegangenerTag = int(line.split(' ')[2])
+ZaehlerVorangegangenerTag = 0
+print("Startwert Zaehler: ", ZaehlerVorangegangenerTag)
+#infile.close()
+#outfile.close()
+#sys.exit()
+
+#reset file read counter
+infile.seek(0);
+# read lines until no more lines available
+# exiting loop via break
+while True:
+    line = infile.readline()
+    if not line:
+        break
+    #items are separated by whitespace
+    lineSplit = line.split(' ')
+    # der erste wert ist unser datetime
+    dtString = lineSplit[0]
+    # haben wir noch den gleichen Tag? dann wert lesen
+    # current date
+    cdate = datetime.fromisoformat(dtString)
+    # vorsicht bei vergleich, wir dürfen nicht die Objekte
+    # vergleichen (das wäre ein "=")
+    if cdate.date() == prevDate.date():
+        #print("Noch der gleiche Tag", cdate.date().isoformat(), " ", line)
+        letzterZaehlerstandMomTag = int(lineSplit[2])
+        #print (letzterZaehlerstandMomTag)
+    else:
+        print ("Neuer Tag: ", cdate.date().isoformat())
+        # letzten Zaehlerstand des vorangegangenen - Tages schreiben
+        outfile.write(prevDate.date().isoformat()+";"+str(letzterZaehlerstandMomTag - ZaehlerVorangegangenerTag)+"\n")
+        
+        # neues datum setzen
+        prevDate = cdate
+        ZaehlerVorangegangenerTag = letzterZaehlerstandMomTag
+        
+ 
+
+# und am ende kommt kein neuer tag
+# da müssen wir dann halt die werte noch von Hand schreiben...
+outfile.write(prevDate.date().isoformat()+";"+str(letzterZaehlerstandMomTag - ZaehlerVorangegangenerTag)+"\n")
+infile.close()
+outfile.close()
+sys.exit()
+
+```
 
