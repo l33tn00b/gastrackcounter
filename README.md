@@ -1,4 +1,4 @@
-# gastrackcounter
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/7a2ec030-9d98-4ad1-80ab-a1e832c4fc8f)# gastrackcounter
 Gasverbrauch mit ESPEasy, fhem und etwas Bastelei im Blick.
 
 # Ziel
@@ -19,6 +19,10 @@ Aus einem anderen Projekt hatte ich noch eine Trägerplatine für ESP-01-Module,
 
 Der Reed-Sensor wird zwischen digitalen Eingang und Masse geklemmt. Damit zieht er beim Durchschalten (wenn das Metall im Zähler vorbeirauscht) den Eingang auf Masse. 
 
+In etwa so:   
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/3677ed3a-6763-4d05-918e-cd9b7f0705f1)
+
+
 ## ESPEasy
 Sorry, keine Ausführungen zur Installation von ESPEasy. Bitte auf den Seiten dort nachschlagen.
 Zur Konfiguration: Offensichtlich muss das Ding dann erstmal ins Netz. Das bitte auch nach Doku von ESPEasy machen.   
@@ -37,7 +41,8 @@ Hier einfach auf das Gas (Task 3) achten.
 ![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/476f504f-5d5d-48ec-bde7-6b6dfead1712)  
 
 
-Task 3 (Gas) im Detail:
+Task 3 (Gas) im Detail:  
+
 ![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/625848c2-e0fa-415b-8dd9-e5b35c03811c)
 
 
