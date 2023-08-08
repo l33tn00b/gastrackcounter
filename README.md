@@ -81,5 +81,12 @@ Weil autocreate an ist, sollte der ESP dann automatisch angelegt werden, wenn er
   attr di_gasTrackCounterRel room Gas
   ```
   Weil der ESP eben espWasser heißt, und den Task Gas hat, das ganze Ding per autocreate angelegt wird, taucht der Name oben zusammengesetzt (ESPEasy_espWasser_Gas) im DOIF auf.
+- Wäre ja doof, wenn wir das nicht auch irgendwo loggen würden, um es dann auszuwerten:
+  ```
+  defmod FileLog_gasVirtuellerZaehlerstand FileLog ./log/gasVirtuellerZaehlerstand_%Y_%m.log gasVirtuellerZaehlerstand:.*
+  attr FileLog_gasVirtuellerZaehlerstand room Energie,Gas
+  ```
+
+
 - 
 
