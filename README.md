@@ -9,6 +9,7 @@ Funktioniert. Ist über zwei Jahre recht stabil gelaufen. Jetzt ist der Gasansch
 
 # Zutaten
 - fhem am Laufen
+- ESPEasy (habe ne olle Version: v2.3.0 Build 147, ist ja schon ne Weile gelaufen).
 - Hardware für ESPEasy, z.B. ein WEMOS o.ä.
 - Reed Sensor (Meder, MK04-1A66B-500W)
 
@@ -28,6 +29,8 @@ Zur Konfiguration: Offensichtlich muss das Ding dann erstmal ins Netz. Das bitte
 
 ### Hardware Settings
 ![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/7cb571a1-0916-4ad0-9e87-d00f0fdd4cad)
+Hier ist der passende GPIO einzutragen....
+
 ### Devices
 Hier einfach auf das Gas (Task 3) achten.  
 
