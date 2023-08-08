@@ -1,4 +1,4 @@
-![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/7a2ec030-9d98-4ad1-80ab-a1e832c4fc8f)# gastrackcounter
+# gastrackcounter
 Gasverbrauch mit ESPEasy, fhem und etwas Bastelei im Blick.
 
 # Ziel
