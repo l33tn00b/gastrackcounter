@@ -22,6 +22,9 @@ Der Reed-Sensor wird zwischen digitalen Eingang und Masse geklemmt. Damit zieht 
 In etwa so:   
 ![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/3677ed3a-6763-4d05-918e-cd9b7f0705f1)
 
+Am Zähler ist der Sensor einfach mit etwas Klebeband in der Mulde unterhalb des Sichtfensters am Zählwerk festgeklebt.  
+![grafik](https://github.com/l33tn00b/gastrackcounter/assets/28904067/632b4911-434b-457b-9bf6-1b4d42815213)
+
 
 ## ESPEasy
 Sorry, keine Ausführungen zur Installation von ESPEasy. Bitte auf den Seiten dort nachschlagen.
